@@ -1,23 +1,29 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+import * as cryptoServer from 'crypto';
+
+@Entity()
 export default class User {
-  id: number;
+  @PrimaryColumn()
+  id: string;
+  @Column()
   name: string;
+  @Column()
   email: string;
+  @Column()
   password: string;
+  @Column()
   type: 'ADM' | 'OPR' | 'PRP';
 
   constructor(
-    id: number,
-    name: string,
-    email: string,
-    password: string,
-    type: string,
+    props: {
+      name: string;
+      email: string;
+      password: string;
+      type: 'ADM' | 'OPR' | 'PRP';
+    },
+    id?: string,
   ) {
-    if (!(type == 'ADM' || type == 'OPR' || type == 'PRP'))
-      throw new Error('Invalid type to user');
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.type = type;
+    Object.assign(this, props);
+    this.id = id ?? cryptoServer.randomUUID();
   }
 }
