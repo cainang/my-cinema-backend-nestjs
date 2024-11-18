@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import * as cryptoServer from 'crypto';
+import { Cinema } from '../../cinema/entities/cinema.entity';
 
 @Entity()
 export default class User {
@@ -13,6 +14,8 @@ export default class User {
   password: string;
   @Column()
   type: 'ADM' | 'OPR' | 'PRP';
+  @OneToMany(() => Cinema, (cinema) => cinema.user)
+  cinemas: Cinema[];
 
   constructor(
     props: {

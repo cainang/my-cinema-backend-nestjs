@@ -20,7 +20,10 @@ export class UserTypeOrmRepository implements IUserRepository {
     return this.typeOrmRepo.save(userUpdate);
   }
   async get(id: string): Promise<User | undefined> {
-    return this.typeOrmRepo.findOneOrFail({ where: { id } });
+    return this.typeOrmRepo.findOneOrFail({
+      where: { id },
+      relations: { cinemas: true },
+    });
   }
   async getAll(): Promise<User[]> {
     return this.typeOrmRepo.find();
