@@ -9,6 +9,9 @@ import User from './users/entities/user.entity';
 import { Cinema } from './cinema/entities/cinema.entity';
 import { RoomsModule } from './rooms/rooms.module';
 import { Room } from './rooms/entities/room.entity';
+import { FilmsModule } from './films/films.module';
+import { Film } from './films/entities/film.entity';
+import { SessionsModule } from './sessions/sessions.module';
 
 @Module({
   imports: [
@@ -18,13 +21,15 @@ import { Room } from './rooms/entities/room.entity';
       port: 5432,
       username: 'admin',
       password: 'admin',
-      entities: [User, Cinema, Room],
+      entities: [User, Cinema, Room, Film],
       synchronize: true,
     }),
     UsersModule,
     TicketsModule,
     CinemaModule,
     RoomsModule,
+    FilmsModule,
+    SessionsModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],
