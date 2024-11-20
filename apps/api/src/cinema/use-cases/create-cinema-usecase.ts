@@ -15,6 +15,9 @@ export class CreateCinemaUseCase {
 
   async execute(input: CreateCinemaDto) {
     const userSearched = await this.userRepo.get(input.userId);
+    if (!userSearched) {
+      throw new Error('User not exist');
+    }
     const cinema = new Cinema(input);
     cinema.user = userSearched;
     await this.cinemaRepo.create(cinema);
