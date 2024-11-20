@@ -8,6 +8,7 @@ import { CinemaModule } from './cinema/cinema.module';
 import User from './users/entities/user.entity';
 import { Cinema } from './cinema/entities/cinema.entity';
 import { RoomsModule } from './rooms/rooms.module';
+import { Room } from './rooms/entities/room.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { RoomsModule } from './rooms/rooms.module';
       port: 5432,
       username: 'admin',
       password: 'admin',
-      entities: [User, Cinema],
+      entities: [User, Cinema, Room],
       synchronize: true,
     }),
     UsersModule,
