@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CinemaModule } from './cinema/cinema.module';
 import User from './users/entities/user.entity';
 import { Cinema } from './cinema/entities/cinema.entity';
+import { RoomsModule } from './rooms/rooms.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { Cinema } from './cinema/entities/cinema.entity';
     UsersModule,
     TicketsModule,
     CinemaModule,
+    RoomsModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],
