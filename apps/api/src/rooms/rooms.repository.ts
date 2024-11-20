@@ -1,38 +1,38 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cinema } from './entities/cinema.entity';
+import { Room } from './entities/room.entity';
 
-export default interface ICinemaRepository {
-  getAll(): Promise<Cinema[]>;
-  get(id: string): Promise<Cinema | undefined>;
-  getByUser(id: string): Promise<Cinema[] | []>;
-  create(userCreate: Cinema): Promise<Cinema>;
-  edit(userUpdate: Cinema): Promise<Cinema>;
-  delete(userDelete: Cinema): Promise<boolean>;
+export default interface IRoomRepository {
+  getAll(): Promise<Room[]>;
+  get(id: string): Promise<Room | undefined>;
+  getByCinema(id: string): Promise<Room[] | []>;
+  create(roomCreate: Room): Promise<Room>;
+  edit(roomUpdate: Room): Promise<Room>;
+  delete(roomDelete: Room): Promise<boolean>;
 }
 
-export class CinemaTypeOrmRepository implements ICinemaRepository {
+export class RoomTypeOrmRepository implements IRoomRepository {
   constructor(
-    @InjectRepository(Cinema)
-    private typeOrmRepo: Repository<Cinema>,
+    @InjectRepository(Room)
+    private typeOrmRepo: Repository<Room>,
   ) {}
 
-  async get(id: string): Promise<Cinema | undefined> {
+  async get(id: string): Promise<Room | undefined> {
     return this.typeOrmRepo.findOneOrFail({ where: { id } });
   }
-  async getByUser(id: string): Promise<Cinema[] | []> {
-    return this.typeOrmRepo.find({ where: { user: { id } } });
+  async getByCinema(id: string): Promise<Room[] | []> {
+    return this.typeOrmRepo.find({ where: { cinema: { id } } });
   }
-  async getAll(): Promise<Cinema[]> {
+  async getAll(): Promise<Room[]> {
     return this.typeOrmRepo.find();
   }
-  async edit(userUpdate: Cinema): Promise<Cinema> {
-    return this.typeOrmRepo.save(userUpdate);
+  async edit(roomUpdate: Room): Promise<Room> {
+    return this.typeOrmRepo.save(roomUpdate);
   }
-  async create(userCreate: Cinema): Promise<Cinema> {
-    return this.typeOrmRepo.save(userCreate);
+  async create(roomCreate: Room): Promise<Room> {
+    return this.typeOrmRepo.save(roomCreate);
   }
-  async delete(userDelete: Cinema): Promise<boolean> {
-    return (await this.typeOrmRepo.delete(userDelete)).affected > 0;
+  async delete(roomDelete: Room): Promise<boolean> {
+    return (await this.typeOrmRepo.delete(roomDelete)).affected > 0;
   }
 }

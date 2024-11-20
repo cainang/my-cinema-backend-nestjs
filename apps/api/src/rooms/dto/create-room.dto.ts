@@ -1,1 +1,6 @@
-export class CreateRoomDto {}
+export class CreateRoomDto {
+  name: string;
+  capacity: number;
+  maxCapacity: number;
+  cinemaId: string;
+}

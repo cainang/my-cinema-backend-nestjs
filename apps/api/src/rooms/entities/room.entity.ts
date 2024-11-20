@@ -8,7 +8,7 @@ export class Room {
   id: string;
   @Column()
   name: string;
-  @Column()
+  @Column({ default: 0 })
   capacity: number;
   @Column()
   maxCapacity: number;
