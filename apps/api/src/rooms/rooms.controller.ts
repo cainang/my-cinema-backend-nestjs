@@ -18,6 +18,7 @@ import { FindRoomsByCinemaUseCase } from './use-cases/find-room-by-cinema-usecas
 import { SearchRoomUseCase } from './use-cases/search-room-usecase';
 import { EnterRoomUseCase } from './use-cases/enter-room-usecase';
 import { EnterRoomDto } from './dto/enter-room.dto';
+import { CleanRoomUseCase } from './use-cases/clean-room-usecase';
 
 @Controller('rooms')
 export class RoomsController {
@@ -35,6 +36,8 @@ export class RoomsController {
   private readonly findRoomsByCinemaUseCase: FindRoomsByCinemaUseCase;
   @Inject(SearchRoomUseCase)
   private readonly searchRoomUseCase: SearchRoomUseCase;
+  @Inject(CleanRoomUseCase)
+  private readonly cleanRoomUseCase: CleanRoomUseCase;
 
   @Post()
   create(@Body() createRoomDto: CreateRoomDto) {
@@ -64,6 +67,11 @@ export class RoomsController {
   @Patch('/enter/:id')
   enterRoom(@Param('id') id: string, @Body() enterRoomDto: EnterRoomDto) {
     return this.enterRoomUseCase.execute(id, enterRoomDto);
+  }
+
+  @Patch('/clean/:id')
+  cleanRoom(@Param('id') id: string) {
+    return this.cleanRoomUseCase.execute(id);
   }
 
   @Delete(':id')

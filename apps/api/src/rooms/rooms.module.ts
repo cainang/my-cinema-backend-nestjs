@@ -13,6 +13,7 @@ import { EnterRoomUseCase } from './use-cases/enter-room-usecase';
 import { FindAllRoomsUseCase } from './use-cases/find-all-rooms-usecase';
 import { FindRoomsByCinemaUseCase } from './use-cases/find-room-by-cinema-usecase';
 import { SearchRoomUseCase } from './use-cases/search-room-usecase';
+import { CleanRoomUseCase } from './use-cases/clean-room-usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Cinema, Room])],
@@ -25,6 +26,7 @@ import { SearchRoomUseCase } from './use-cases/search-room-usecase';
     FindAllRoomsUseCase,
     FindRoomsByCinemaUseCase,
     SearchRoomUseCase,
+    CleanRoomUseCase,
     RoomTypeOrmRepository,
     CinemaTypeOrmRepository,
     {
