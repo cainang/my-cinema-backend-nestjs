@@ -16,9 +16,17 @@ export class EnterRoomUseCase {
       throw new Error('Room not exists');
     }
 
+    let newCapacity = 0;
     if (input.capacityToAdd) {
-      roomSearched.capacity = roomSearched.capacity + input.capacityToAdd;
+      newCapacity = roomSearched.capacity + input.capacityToAdd;
+    } else {
+      throw new Error('capacityToAdd not valid!');
     }
+
+    if (newCapacity > roomSearched.maxCapacity)
+      throw new Error('Invalid capacity to room!');
+
+    roomSearched.capacity = newCapacity;
 
     await this.roomRepo.edit(roomSearched);
     return roomSearched;
