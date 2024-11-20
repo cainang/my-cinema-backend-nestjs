@@ -1,6 +1,7 @@
 import * as cryptoServer from 'crypto';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import User from '../../users/entities/user.entity';
+import { Room } from '../../rooms/entities/room.entity';
 
 @Entity()
 export class Cinema {
@@ -12,6 +13,8 @@ export class Cinema {
   location: string;
   @ManyToOne(() => User, (user) => user.cinemas)
   user: User;
+  @OneToMany(() => Room, (room) => room.cinema)
+  rooms: Room[];
 
   constructor(
     props: {
