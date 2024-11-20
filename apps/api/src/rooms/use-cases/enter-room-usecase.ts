@@ -16,8 +16,8 @@ export class EnterRoomUseCase {
       throw new Error('Room not exists');
     }
 
-    if (input.capacity) {
-      roomSearched.capacity = input.capacity;
+    if (input.capacityToAdd) {
+      roomSearched.capacity = roomSearched.capacity + input.capacityToAdd;
     }
 
     await this.roomRepo.edit(roomSearched);

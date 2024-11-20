@@ -18,12 +18,14 @@ export class Room {
   constructor(
     props: {
       name: string;
-      capacity: number;
+
       maxCapacity: number;
     },
     id?: string,
+    capacity?: number,
   ) {
     Object.assign(this, props);
     this.id = id ?? cryptoServer.randomUUID();
+    this.capacity = capacity ?? 0;
   }
 }
