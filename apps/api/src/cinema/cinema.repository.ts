@@ -6,9 +6,9 @@ export default interface ICinemaRepository {
   getAll(): Promise<Cinema[]>;
   get(id: string): Promise<Cinema | undefined>;
   getByUser(id: string): Promise<Cinema[] | []>;
-  create(userCreate: Cinema): Promise<Cinema>;
-  edit(userUpdate: Cinema): Promise<Cinema>;
-  delete(userDelete: Cinema): Promise<boolean>;
+  create(cinemaCreate: Cinema): Promise<Cinema>;
+  edit(cinemaUpdate: Cinema): Promise<Cinema>;
+  delete(cinemaDelete: Cinema): Promise<boolean>;
 }
 
 export class CinemaTypeOrmRepository implements ICinemaRepository {
@@ -26,13 +26,13 @@ export class CinemaTypeOrmRepository implements ICinemaRepository {
   async getAll(): Promise<Cinema[]> {
     return this.typeOrmRepo.find();
   }
-  async edit(userUpdate: Cinema): Promise<Cinema> {
-    return this.typeOrmRepo.save(userUpdate);
+  async edit(cinemaUpdate: Cinema): Promise<Cinema> {
+    return this.typeOrmRepo.save(cinemaUpdate);
   }
-  async create(userCreate: Cinema): Promise<Cinema> {
-    return this.typeOrmRepo.save(userCreate);
+  async create(cinemaCreate: Cinema): Promise<Cinema> {
+    return this.typeOrmRepo.save(cinemaCreate);
   }
-  async delete(userDelete: Cinema): Promise<boolean> {
-    return (await this.typeOrmRepo.delete(userDelete)).affected > 0;
+  async delete(cinemaDelete: Cinema): Promise<boolean> {
+    return (await this.typeOrmRepo.delete(cinemaDelete)).affected > 0;
   }
 }
