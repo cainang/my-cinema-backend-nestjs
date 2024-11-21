@@ -20,7 +20,7 @@ export class Session {
   closeHour: string;
   @Column({ type: 'timestamptz' })
   date: string;
-  @Column()
+  @Column('decimal', { precision: 6, scale: 2 })
   price: number;
 
   @ManyToOne(() => Room, (room) => room.sessions)
