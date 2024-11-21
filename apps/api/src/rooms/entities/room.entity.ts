@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
 import * as cryptoServer from 'crypto';
 import { Cinema } from '../../cinema/entities/cinema.entity';
+import { Session } from '../../sessions/entities/session.entity';
 
 @Entity()
 export class Room {
@@ -14,6 +15,8 @@ export class Room {
   maxCapacity: number;
   @ManyToOne(() => Cinema, (cinema) => cinema.rooms)
   cinema: Cinema;
+  @OneToMany(() => Session, (session) => session.room)
+  sessions: Session[];
 
   constructor(
     props: {
