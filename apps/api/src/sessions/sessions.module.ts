@@ -15,9 +15,10 @@ import { FindSessionsByFilmUseCase } from './use-cases/find-sessions-by-film-use
 import { FindSessionsByRoomsUseCase } from './use-cases/find-sessions-by-room-usecase';
 import { SearchSessionUseCase } from './use-cases/search-session-usecase';
 import { Session } from './entities/session.entity';
+import { Ticket } from '../tickets/entities/ticket.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Session, Room, Film])],
+  imports: [TypeOrmModule.forFeature([Session, Room, Film, Ticket])],
   controllers: [SessionsController],
   providers: [
     CreateSessionUseCase,

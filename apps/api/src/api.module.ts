@@ -13,6 +13,7 @@ import { FilmsModule } from './films/films.module';
 import { Film } from './films/entities/film.entity';
 import { SessionsModule } from './sessions/sessions.module';
 import { Session } from './sessions/entities/session.entity';
+import { Ticket } from './tickets/entities/ticket.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { Session } from './sessions/entities/session.entity';
       port: 5432,
       username: 'admin',
       password: 'admin',
-      entities: [User, Cinema, Room, Film, Session],
+      entities: [User, Cinema, Room, Film, Session, Ticket],
       synchronize: true,
     }),
     UsersModule,

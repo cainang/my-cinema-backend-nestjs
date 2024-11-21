@@ -1,18 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateTicketDto } from './dto/create-ticket.dto';
-import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ClientProxy } from '@nestjs/microservices';
+import { UseTicketDto } from './dto/use-ticket.dto';
 
 @Injectable()
 export class TicketsService {
   constructor(@Inject('RABBIT_CONNECT') private rabbitmqService: ClientProxy) {}
 
-  async create(createTicketDto: CreateTicketDto) {
-    console.log(createTicketDto);
+  async useTicket(ticket: UseTicketDto) {
+    console.log(ticket);
 
-    const data = { pattern: 'createUser', data: createTicketDto };
-    this.rabbitmqService.emit('createUser', createTicketDto);
-    return createTicketDto;
+    try {
+      const data = { pattern: 'useTicket', data: ticket };
+      this.rabbitmqService.emit('useTicket', ticket);
+      return { message: 'Mensagem Enviada' };
+    } catch (error) {
+      return error;
+    }
   }
 
   findAll() {
@@ -23,7 +26,7 @@ export class TicketsService {
     return `This action returns a #${id} ticket`;
   }
 
-  update(id: number, updateTicketDto: UpdateTicketDto) {
+  update(id: number) {
     return `This action updates a #${id} ticket`;
   }
 

@@ -4,11 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
 import { Room } from '../../rooms/entities/room.entity';
 import { Film } from '../../films/entities/film.entity';
+import { Ticket } from '../../tickets/entities/ticket.entity';
 
 @Entity()
 export class Session {
@@ -29,6 +31,9 @@ export class Session {
   @OneToOne(() => Film)
   @JoinColumn()
   film: Film;
+
+  @OneToMany(() => Ticket, (ticket) => ticket.session)
+  tickets: Ticket[];
 
   constructor(
     props: {
