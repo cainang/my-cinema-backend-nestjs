@@ -10,6 +10,11 @@ export class EditSessionUseCase {
   ) {}
 
   async execute(id: string, input: UpdateSessionDto) {
+    if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]/.test(input.openHour))
+      throw new Error('Invalid open hour');
+    if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]/.test(input.closeHour))
+      throw new Error('Invalid close hour');
+
     const sessionsSearched = await this.sessionsRepo.get(id);
 
     if (!sessionsSearched) {

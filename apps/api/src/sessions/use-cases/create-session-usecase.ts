@@ -17,6 +17,11 @@ export class CreateSessionUseCase {
   ) {}
 
   async execute(input: CreateSessionDto) {
+    if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]/.test(input.openHour))
+      throw new Error('Invalid open hour');
+    if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]/.test(input.closeHour))
+      throw new Error('Invalid close hour');
+
     const roomSearched = await this.roomRepo.get(input.roomId);
     if (!roomSearched) {
       throw new Error('Room not exist');
