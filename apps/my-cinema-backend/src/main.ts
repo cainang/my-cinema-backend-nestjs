@@ -5,21 +5,19 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 async function bootstrap() {
   //const app = await NestFactory.create(AppModule);
 
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
+  const enterTicketQueue =
+    await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://admin:admin@rabbitmq:5672'],
-        queue: 'mycinema',
+        queue: 'enterTicket',
         noAck: false,
         queueOptions: {
           durable: true,
         },
       },
-    },
-  );
+    });
 
-  await app.listen();
+  await enterTicketQueue.listen();
 }
 bootstrap();

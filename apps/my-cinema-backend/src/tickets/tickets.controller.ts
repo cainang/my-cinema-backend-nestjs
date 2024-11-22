@@ -1,35 +1,53 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Inject } from '@nestjs/common';
+import {
+  Ctx,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import { TicketsService } from './tickets.service';
-import { CreateTicketDto } from './dto/create-ticket.dto';
-import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { UseTicketDto } from './dto/use-ticket.dto';
+import { UseTicketUseCase } from './use-cases/use-ticket-usecase';
 
 @Controller()
 export class TicketsController {
-  constructor(private readonly ticketsService: TicketsService) {}
+  @Inject(TicketsService)
+  private readonly ticketsService: TicketsService;
+  @Inject(UseTicketUseCase)
+  private readonly useTicketUseCase: UseTicketUseCase;
 
-  @MessagePattern('createTicket')
-  create(@Payload() createTicketDto: CreateTicketDto) {
-    return this.ticketsService.create(createTicketDto);
-  }
+  @MessagePattern('useTicket')
+  async useTicket(
+    @Payload() useTicketDto: UseTicketDto,
+    @Ctx() context: RmqContext,
+  ) {
+    console.log('Recebido:', useTicketDto);
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
 
-  @MessagePattern('findAllTickets')
-  findAll() {
-    return this.ticketsService.findAll();
-  }
+    if (useTicketDto.used == false) {
+      const changeTicketStatus =
+        await this.useTicketUseCase.execute(useTicketDto);
+      console.log(changeTicketStatus);
 
-  @MessagePattern('findOneTicket')
-  findOne(@Payload() id: number) {
-    return this.ticketsService.findOne(id);
-  }
-
-  @MessagePattern('updateTicket')
-  update(@Payload() updateTicketDto: UpdateTicketDto) {
-    return this.ticketsService.update(updateTicketDto.id, updateTicketDto);
-  }
-
-  @MessagePattern('removeTicket')
-  remove(@Payload() id: number) {
-    return this.ticketsService.remove(id);
+      if (changeTicketStatus.used) {
+        channel.assertExchange('my-cinema', 'direct', {
+          durable: true,
+        });
+        channel.publish(
+          'my-cinema',
+          'email-cinema',
+          Buffer.from(
+            JSON.stringify({
+              email: changeTicketStatus.email,
+              name: changeTicketStatus.name,
+            }),
+          ),
+        );
+        channel.ack(originalMsg);
+      }
+    } else {
+      channel.ack(originalMsg);
+    }
   }
 }
