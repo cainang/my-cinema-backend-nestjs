@@ -9,11 +9,11 @@ async function bootstrap() {
     await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:admin@rabbitmq:5672'],
-        queue: 'enterTicket',
-        noAck: false,
+        urls: [process.env.RABBITMQ_URI],
+        queue: process.env.RABBITMQ_QUEUE,
+        noAck: Boolean(process.env.RABBITMQ_NOACK),
         queueOptions: {
-          durable: true,
+          durable: Boolean(process.env.RABBITMQ_DURABLE),
         },
       },
     });
