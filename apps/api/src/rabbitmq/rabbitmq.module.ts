@@ -7,7 +7,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ClientsModule.registerAsync([
       {
-        name: 'RABBIT_MODULE',
+        name: 'RABBIT_CONNECT',
         useFactory: (configService: ConfigService<Configuration>) => ({
           name: 'RABBIT_CONNECT',
           transport: Transport.RMQ,

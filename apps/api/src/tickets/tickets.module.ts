@@ -11,9 +11,10 @@ import { SessionsTypeOrmRepository } from '../sessions/sessions.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Ticket } from './entities/ticket.entity';
 import { Session } from '../sessions/entities/session.entity';
+import { RabbitMqModule } from '../rabbitmq/rabbitmq.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Ticket, Session])],
+  imports: [RabbitMqModule, TypeOrmModule.forFeature([Ticket, Session])],
   controllers: [TicketsController],
   providers: [
     CreateTicketUseCase,
